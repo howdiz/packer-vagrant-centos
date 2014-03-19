@@ -14,6 +14,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		centos.vm.provider :virtualbox do |vb|
 			vb.name = "centos"
 		end
+		centos.vm.provision :shell, :path => "centos_cfg/configure.sh"
 	end
 
 end
