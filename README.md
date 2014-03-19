@@ -4,8 +4,6 @@ packer-vagrant-centos
 inspired by:
 https://github.com/kentaro/packer-centos-template
 
-after '**vagrant init**':
-
 ```
 sh build_centos.sh
 ```
@@ -27,7 +25,7 @@ sh build_centos.sh
 Vital features of **provision.sh**:
 
 * create '**root**' user with password '**vagrant**'
-* software installation -- **NFS**, **Apache**, **MySQL**, **PHP** w/ extensions: **mysql** **gd** **xml** **mbstring**
+* software installation -- **NFS**, **Apache**, **MySQL**, **PHP** w/ extensions: **mysql** **gd** **xml** **mbstring**, **Sendmail**
 * iptables configuration -- granting 'outside' access to ports **80**, **443** and **3306**
 * creation of default **VirtualHost**
 * grant of **MySQL** user '**root**' with password '**vagrant**' with broadest privileges
