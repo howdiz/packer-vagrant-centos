@@ -11,12 +11,3 @@ chown -R vagrant:vagrant /home/vagrant/.ssh
 
 yum -y install nfs-utils nano httpd mysql mysql-server php php-mysql php-gd php-xml php-mbstring sendmail
 yum -y clean all
-
-iptables -I INPUT -p tcp --dport 80 -j ACCEPT
-iptables -I INPUT -p tcp --dport 443 -j ACCEPT
-iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
-service iptables save
-
-echo "127.0.0.1 local" >> /etc/hosts
-
-echo "Welcome, Vagrant." > /etc/motd
