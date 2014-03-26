@@ -1,3 +1,15 @@
+chkconfig nfs --add
+chkconfig nfs on --level 2345
+service nfs start
+
+chkconfig nfslock --add
+chkconfig nfslock on --level 2345
+service nfslock start
+
+chkconfig rpcbind --add
+chkconfig rpcbind on --level 2345
+service rpcbind start
+
 iptables -I INPUT -p tcp --dport 80 -j ACCEPT
 iptables -I INPUT -p tcp --dport 443 -j ACCEPT
 iptables -I INPUT -p tcp --dport 3306 -j ACCEPT
@@ -55,22 +67,12 @@ cat <<EOF > /sync/conf.d/local.conf
 EOF
 
 chkconfig httpd --add
-chkconfig httpd on --level 235
+chkconfig httpd on --level 2345
 service httpd start
 
-service mysqld start
-mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('vagrant') WHERE User='root'; FLUSH PRIVILEGES;"
-service mysqld stop
-
 mkdir /sync/mysql.data > /dev/null 2>&1
-if [ ! -d /sync/mysql.data/mysql ]; then
-    rm -rf /sync/mysql.data/mysql
-    mv /var/lib/mysql/mysql /sync/mysql.data
-fi
 chmod -R 777 /sync/mysql.data
 chmod -R g+s /sync/mysql.data
-chown -R mysql:mysql /sync/mysql.data
-ln -s /sync/mysql.data /var/lib/mysql
 
 cat <<EOF > /etc/my.cnf
 [mysqld]
@@ -84,13 +86,17 @@ pid-file=/var/run/mysqld/mysqld.pid
 EOF
 
 chkconfig mysqld --add
-chkconfig mysqld on --level 235
+chkconfig mysqld on --level 2345
 service mysqld start
 
+chown -R mysql:mysql /sync/mysql.data
+ln -s /sync/mysql.data/mysql.sock /var/lib/mysql/mysql.sock
+ln -s /sync/mysql.data/mysql /var/lib/mysql/mysql
+chown -R mysql:mysql /var/lib/mysql
+
+mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('vagrant') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
+
 chkconfig sendmail --add
-chkconfig sendmail on --level 235
+chkconfig sendmail on --level 2345
 service sendmail start
 
-echo "127.0.0.1 local" >> /etc/hosts
-
-echo "Welcome, Vagrant." > /etc/motd

@@ -5,12 +5,12 @@ inspired by:
 https://github.com/kentaro/packer-centos-template
 
 ```
-sh build_centos.sh
+sh build_base.sh
 ```
 
 **Packer** will:
 
-* obtain CentOS from one of the mirrors specified in **centos.json**
+* obtain CentOS from one of the mirrors specified in **base.json**
 * execute anaconda according to **kickstart.cfg**
 * install a base CentOS system on top of that minimal kernel
 * run **provision.sh** on first boot to establish a web application stack
@@ -25,9 +25,15 @@ sh build_centos.sh
 Vital features of **provision.sh**:
 
 * create '**root**' user with password '**vagrant**'
-* software installation -- **NFS**, **Apache**, **MySQL**, **PHP** w/ extensions: **mysql** **gd** **xml** **mbstring**, **Sendmail**
+* obtain **Remi** and **EPEL** repository database information
+* install server daemons -- **NFS**, **Apache**, **MySQL**, **Sendmail**
+* install **PHP** w/ extensions **mysql** **gd** **xml** **mbstring** **mcrypt**
+
+On first boot **setup.sh** adds:
+
 * iptables configuration -- granting 'outside' access to ports **80**, **443** and **3306**
 * creation of default **VirtualHost**
+* creation of 'vanilla' **my.cnf** for MySQL
 * grant of **MySQL** user '**root**' with password '**vagrant**' with broadest privileges
 
 Connectivity to VM's servers, **from Host**:
@@ -42,3 +48,5 @@ To add an *additional* Apache **VirtualHost**:
 * vhost configuration -- `/sync/conf.d/example.local.conf`
 * `vagrant ssh centos`
 * `sudo service httpd restart`
+
+A second machine for **Laravel** is *coming soon*...
