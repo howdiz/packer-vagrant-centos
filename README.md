@@ -54,8 +54,8 @@ To the above, **laravel.sh** adds:
 * base install of laravel -- `/sync/laravel`
 * fully updated `vendor/` packages
 
-`sh up_base.sh`
+`sh up_base.sh` **OR** `sh up_laravel.sh`
 
-**OR**
+**THEN**
 
-`sh up_laravel.sh`
+`sudo sh /etc/startup.sh`

@@ -104,7 +104,31 @@ chkconfig sendmail --add
 chkconfig sendmail on --level 2345
 service sendmail start
 
+chkconfig httpd --add
+chkconfig httpd on --level 2345
+service httpd start
+
+cat <<EOF > /etc/startup.sh
+chkconfig httpd --add
+chkconfig httpd on --level 2345
+service httpd restart
+mkdir /sync/mysql.data/ib_log
+mv /sync/mysql.data/ib_logfile* /sync/mysql.data/ib_log
+cp /sync/mysql.data/ib_log/* /sync/mysql.data
+chkconfig mysqld --add
+chkconfig mysqld on --level 2345
+service mysqld restart
+rm -rf /sync/mysql.data/ib_log
+chkconfig sendmail --add
+chkconfig sendmail on --level 2345
+service sendmail restart
+EOF
+
+cat <<EOF > /etc/fixnet.sh
 rm -f /etc/udev/rules.d/70-persistent-net.rules
 sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0
 sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
 rm -f /etc/sysconfig/network-scripts/ifcfg-eth1
+EOF
+
+sh /etc/fixnet.sh

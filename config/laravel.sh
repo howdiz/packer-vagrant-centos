@@ -32,3 +32,5 @@ rm -rf vendor
 /usr/local/bin/composer update
 chmod -R 777 /sync/laravel
 chmod -R g+s /sync/laravel
+
+sh /etc/fixnet.sh
