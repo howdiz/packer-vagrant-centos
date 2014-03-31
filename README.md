@@ -4,7 +4,7 @@ packer-vagrant-centos
 inspired by:
 https://github.com/kentaro/packer-centos-template
 
-`sh build.sh`
+`sh build_all.sh`
 
 **Packer** will:
 
@@ -54,8 +54,8 @@ To the above, **laravel.sh** adds:
 * base install of laravel -- `/sync/laravel`
 * fully updated `vendor/` packages
 
-`vagrant up base`
+`sh up_base.sh`
 
 **OR**
 
-`vagrant up laravel`
+`sh up_laravel.sh`
