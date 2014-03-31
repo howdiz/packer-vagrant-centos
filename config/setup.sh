@@ -85,14 +85,18 @@ log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
 EOF
 
-chkconfig mysqld --add
-chkconfig mysqld on --level 2345
-service mysqld start
-
 chown -R mysql:mysql /sync/mysql.data
 ln -s /sync/mysql.data/mysql.sock /var/lib/mysql/mysql.sock
 ln -s /sync/mysql.data/mysql /var/lib/mysql/mysql
 chown -R mysql:mysql /var/lib/mysql
+
+mkdir /sync/mysql.data/ib_log
+mv /sync/mysql.data/ib_logfile* /sync/mysql.data/ib_log
+cp /sync/mysql.data/ib_log/* /sync/mysql.data
+chkconfig mysqld --add
+chkconfig mysqld on --level 2345
+service mysqld start
+rm -rf /sync/mysql.data/ib_log
 
 mysql -e "GRANT ALL ON *.* TO 'root'@'%' WITH GRANT OPTION; UPDATE mysql.user SET Password = PASSWORD('vagrant') WHERE User='root'; FLUSH PRIVILEGES;" > /dev/null 2>&1
 
@@ -100,3 +104,7 @@ chkconfig sendmail --add
 chkconfig sendmail on --level 2345
 service sendmail start
 
+rm -f /etc/udev/rules.d/70-persistent-net.rules
+sed -i '/HWADDR/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+sed -i '/UUID/d' /etc/sysconfig/network-scripts/ifcfg-eth0
+rm -f /etc/sysconfig/network-scripts/ifcfg-eth1

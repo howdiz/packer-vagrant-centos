@@ -18,10 +18,6 @@ yum --enablerepo=remi -y update
 yum --enablerepo=remi -y install nfs-utils rpcbind nano httpd mysql mysql-server php php-mysql php-gd php-xml php-mbstring php-mcrypt sendmail
 yum -y clean all
 
-cat <<EOF > /etc/udev/rules.d/70-persistent-net.rules
-SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*", ATTR{address}=="08:00:27:17:9c:ca", ATTR{type}=="1", KERNEL=="eth*", NAME="eth0"
-EOF
-
 echo "127.0.0.1 local" >> /etc/hosts
 
 echo "Welcome, Vagrant." > /etc/motd
