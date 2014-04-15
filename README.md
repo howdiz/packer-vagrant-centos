@@ -4,7 +4,7 @@ packer-vagrant-centos
 inspired by:
 https://github.com/kentaro/packer-centos-template
 
-`sh build_all.sh`
+`sudo sh build_all.sh`
 
 **Packer** will:
 
@@ -47,14 +47,8 @@ To add an *additional* Apache **VirtualHost**:
 * `vagrant ssh centos`
 * `sudo service httpd restart`
 
-To the above, **laravel.sh** adds:
 
-* **composer** and **laravel**
-* additional vhost -- `/sync/conf.d/laravel.local.conf`
-* base install of laravel -- `/sync/laravel`
-* fully updated `vendor/` packages
-
-`sh up_base.sh` **OR** `sh up_laravel.sh`
+`sh up_base.sh`
 
 **THEN**
 
